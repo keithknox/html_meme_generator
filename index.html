@@ -2,27 +2,111 @@
 <html>
   <head>
     <title>Make your own meme.</title>
+    <meta name = "viewport" content="width=device-width, initial-scale=1">
+    <meta name="modile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <style>
+    body{
+      font-family: "Raleway";
+    }
+      #image-container{
+        display: flex;
+      }
+    </style>
   </head>
   <body>
-    <!-- crates the dimension of the canvas -->
-    <canvas id="c" width="200" height="200"></canvas>
-    <script>
-    // chooses the canvas
-    //just remember...when workin with canvas, the "y" axis goes DOWN (not up like in a traditional Cartesian plane.)
-      var c = document.querySelector("#c");
-      // creates a variable within the canvas
-      var ctx = c.getContext("2d");
-      //create an image
-      var image = new Image();
-      //load the image onto the canvas
-      image.onload = function(){
-        //loading the image onto the canvas
-        console.log("image loaded.");
-        ctx.drawImage(image, 0, 0, c.width, c.height);
-      }
-      //first image to work with:
-      image.src = "zac.jpg";
+    <h1>Welcome to Keith's Meme Generator</h1>
+    <h4>To get started, please upload an image. Then, add your top and bottom lines. When you're done, click save and download your meme.</h4>
 
+    <script>
+    </script>
+    <div>
+      <input type="file" id="file"/>
+    </div>
+    <div id="image-container">
+      <!-- creates the dimension of the canvas -->
+      <canvas id="c" width="500" height="500"></canvas>
+        <div>
+          <span>Top Line:</span><br>
+          <input id="topLineText" type="text"><br>
+          <span>Bottom Line:</span><br>
+          <input id="bottomLineText" type="text"><br>
+          <button id="saveBtn">Save</button>
+        </div>
+    </div>
+    <script>
+      function textChangeListener(evt){
+        var id = evt.target.id;
+        var text = evt.target.value;
+          if(id == "topLineText"){
+            window.topLineText = text;
+          } else {
+            window.bottomLineText = text;
+          }
+          redrawMeme(window.imageSrc, window.topLineText, window.bottomLineText)
+      }
+
+    function redrawMeme(image, topLine, bottomLine){
+      var canvas = document.querySelector("canvas");
+      var ctx = canvas.getContext("2d");
+      if (image != null) {
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        //text attributes
+          ctx.lineWidth  = 2;
+          ctx.font = '40pt Raleway';
+          ctx.strokeStyle = 'black';
+          ctx.fillStyle = 'white';
+          ctx.textAlign = 'center';
+          ctx.lineJoin = 'round';
+          topLine = topLine.toUpperCase();
+          bottomLine = bottomLine.toUpperCase();
+
+        if(topLine != null){
+
+          ctx.fillText(topLine, canvas.width / 2, 60);
+          ctx.strokeText(topLine, canvas.width /2, 60);
+        }
+        if(bottomLine !=null){
+          ctx.fillText(bottomLine,  canvas.width / 2, canvas.height - 20);
+          ctx.strokeText(bottomLine, canvas.width / 2, canvas.height - 20);
+        }
+      }
+    }
+
+    function saveFile(){
+      window.open(document.querySelector('canvas').toDataURL());
+    }
+
+    function handleFileSelect(evt){
+      var canvasWidth = 500;
+      var canvasHeight = 500;
+      var file = evt.target.files[0];
+
+      var reader = new FileReader();
+            reader.onload = function(fileObject) {
+              var data = fileObject.target.result;
+
+      var image = new Image();
+      image.onload = function(){
+        window.imageSrc = this;
+        redrawMeme(window.imageSrc, null, null);
+      }
+
+      image.src = data;
+      console.log(fileObject.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+    window.topLineText = "";
+    window.bottomLineText = "";
+    var input1 = document.getElementById('topLineText');
+    var input2 = document.getElementById('bottomLineText');
+    input1.oninput = textChangeListener;
+    input2.oninput = textChangeListener;
+    document.getElementById('file').addEventListener('change', handleFileSelect, false);
+    document.querySelector('button').addEventListener('click', saveFile, false);
     </script>
   </body>
 </html>
