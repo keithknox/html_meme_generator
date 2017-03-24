@@ -8,9 +8,21 @@
     <canvas id="c" width="200" height="200"></canvas>
     <script>
     // chooses the canvas
+    //just remember...when workin with canvas, the "y" axis goes DOWN (not up like in a traditional Cartesian plane.)
       var c = document.querySelector("#c");
       // creates a variable within the canvas
       var ctx = c.getContext("2d");
+      //create an image
+      var image = new Image();
+      //load the image onto the canvas
+      image.onload = function(){
+        //loading the image onto the canvas
+        console.log("image loaded.");
+        ctx.drawImage(image, 0, 0, c.width, c.height);
+      }
+      //first image to work with:
+      image.src = "zac.jpg";
+
     </script>
   </body>
 </html>
