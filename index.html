@@ -6,6 +6,7 @@
     <meta name="modile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
     <style>
     body{
       font-family: "Raleway";
@@ -26,7 +27,7 @@
     </div>
     <div id="image-container">
       <!-- creates the dimension of the canvas -->
-      <canvas id="c" width="500" height="500"></canvas>
+      <canvas id="c" width="750" height="750"></canvas>
         <div>
           <span>Top Line:</span><br>
           <input id="topLineText" type="text"><br>
@@ -54,12 +55,11 @@
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
         //text attributes
-          ctx.lineWidth  = 2;
-          ctx.font = '40pt Raleway';
+          ctx.lineWidth  = 4;
+          ctx.font = 'bolder 50pt Anton';
           ctx.strokeStyle = 'black';
           ctx.fillStyle = 'white';
           ctx.textAlign = 'center';
-          ctx.lineJoin = 'round';
           topLine = topLine.toUpperCase();
           bottomLine = bottomLine.toUpperCase();
 
